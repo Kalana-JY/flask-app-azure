@@ -14,13 +14,13 @@ stages:
       - job: BuildTest
         steps:
           - script: |
-              python -m venv venv
+              python3 -m venv venv
               . venv/bin/activate
               pip install -r requirements.txt
               pytest
-            displayName: 'Install and test'
+            displayName: Install and test
           - task: Docker@2
-            displayName: 'Build and push Docker image'  
+            displayName: Build and push Docker image
             inputs:
               containerRegistry: 'DockerHub'
               repository: '$(imageName)'
