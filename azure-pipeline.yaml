@@ -33,3 +33,18 @@ stages:
             inputs:
               targetPath: '$(Build.SourcesDirectory)'
               artifactName: app
+  - stage: DeployLinux
+    dependsOn: Build
+    jobs:
+    - deployment: Linux
+      pool:
+        name: Default
+      environment: linux-vm
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - download: current
+              artifact: app
+            - script: bash $(Pipeline.Workspace)/app/deploy/deploy-linux.sh $(Pipeline.Workspace)/app
+              displayName: Deploy to Linux
